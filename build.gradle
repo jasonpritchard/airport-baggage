@@ -1,0 +1,41 @@
+defaultTasks 'clean', 'test'
+
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+
+def javaVersion = 1.8
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+
+version = '1.0'
+
+
+repositories {
+    mavenCentral()
+}
+
+
+jar {
+    manifest {
+        attributes (
+        		provider: 'DEN', 
+        		'Implementation-Title': 'Denver Baggage Router', 
+        		'Implementation-Version': version
+        )
+    }
+}
+
+
+dependencies {
+
+    testCompile(
+            'junit:junit:4.12',
+            'org.mockito:mockito-core:1.10.19',
+    )
+
+}
+
