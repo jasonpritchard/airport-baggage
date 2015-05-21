@@ -37,7 +37,7 @@ public class ConveyorRoute implements SectionEntry {
 
 	private TerminalGate firstNode;
 	private TerminalGate secondNode;
-	private int flightTime;
+	private int travelTime;
 
 	/**
 	 * Get the first gate node.
@@ -68,17 +68,19 @@ public class ConveyorRoute implements SectionEntry {
 	}
 
 	/**
-	 * Get the route flight time.
+	 * Get the time the bag takes from the first node to the second
+	 * node on the conveyor.
 	 */
-	public int getFlightTime() {
-		return flightTime;
+	public int getTravelTime() {
+		return travelTime;
 	}
 
 	/**
-	 * Set the route flight time.
+	 * Set the time the bag takes from the first node to the second
+	 * node on the conveyor.
 	 */
-	public void setFlightTime(int flightTime) {
-		this.flightTime = flightTime;
+	public void setTravelTime( int travelTime ) {
+		this.travelTime = travelTime;
 	}
 
 }

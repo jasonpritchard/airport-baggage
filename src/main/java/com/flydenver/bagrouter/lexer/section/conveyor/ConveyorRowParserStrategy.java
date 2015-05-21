@@ -62,7 +62,7 @@ class ConveyorRowParserStrategy implements RowParsingStrategy<ConveyorRoute> {
 		ConveyorRoute route = new ConveyorRoute();
 		route.setFirstTerminal( new TerminalGate( matcher.group( 1 ).trim() ) );
 		route.setSecondTermina( new TerminalGate( matcher.group( 2 ).trim() ) );
-		route.setFlightTime( Integer.parseInt( matcher.group( 3 ).trim() ) );
+		route.setTravelTime( Integer.parseInt( matcher.group( 3 ).trim() ) );
 
 		return new SectionRowWrapper<>(route);
 	}

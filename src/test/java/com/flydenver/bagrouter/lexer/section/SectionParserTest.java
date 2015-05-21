@@ -107,7 +107,7 @@ public class SectionParserTest {
 			validConveyorParser.parseSectionLines(conveyor -> {
 				assertNotNull( conveyor.getFirstTerminal() );
 				assertNotNull( conveyor.getSecondTerminal() );
-				assertNotNull( conveyor.getFlightTime() );
+				assertNotNull( conveyor.getTravelTime() );
 				//System.out.println(conveyor.getFirstTerminal().getGateNumber());
 			});
 		}

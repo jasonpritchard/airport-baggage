@@ -59,7 +59,7 @@ public class RoutingEvaluatorTest {
 		RoutingEvaluator.parseRouting( "routing-input.txt", ConveyorRoute.class, ( conveyor ) -> {
 			assertNotNull( conveyor.getFirstTerminal() );
 			assertNotNull( conveyor.getSecondTerminal() );
-			assertNotNull( conveyor.getFlightTime() );
+			assertNotNull( conveyor.getTravelTime() );
 		});
 
 	}
