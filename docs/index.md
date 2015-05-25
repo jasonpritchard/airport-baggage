@@ -15,7 +15,7 @@ to test on. Instructions here are for Mac and Linux).
 
 __Running Build__
 
-    ./gradlew test
+    ./gradlew build
 
 __Running Tests__
 
