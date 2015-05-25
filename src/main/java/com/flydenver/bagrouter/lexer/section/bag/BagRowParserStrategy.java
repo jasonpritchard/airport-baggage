@@ -40,21 +40,21 @@ import java.util.regex.Pattern;
 /**
  * {@link RowParsingStrategy} implementation for parsing Bag section rows.
  */
-class BagRowParserStrategy implements RowParsingStrategy<BagRoute> {
+class BagRowParserStrategy implements RowParsingStrategy<BagEntry> {
 
 	//	conveyor row should match this format
 	private final static Pattern bagRowPattern = Pattern.compile( "^(\\d+\\s+)(\\w+\\s+)(\\w+)$" );
 
 
 	@Override
-	public SectionRowWrapper<BagRoute> parseSectionRow( String sectionLine ) throws ParseException {
+	public SectionRowWrapper<BagEntry> parseSectionRow( String sectionLine ) throws ParseException {
 		if ( sectionLine == null ) {
 			throw new IllegalArgumentException( "Invalid line (null)." );
 		}
 
 		sectionLine = sectionLine.trim();
 
-		if ( sectionLine.contains("\n") || sectionLine.contains("\r\n") ) {
+		if ( sectionLine.contains( "\n" ) || sectionLine.contains( "\r\n" ) ) {
 			throw new IllegalArgumentException( "Too many lines." );
 		}
 
@@ -63,7 +63,7 @@ class BagRowParserStrategy implements RowParsingStrategy<BagRoute> {
 			throw new ParseException( "Bag route line doesn't match pattern " + bagRowPattern.toString() );
 		}
 
-		BagRoute route = new BagRoute();
+		BagEntry route = new BagEntry();
 		route.setBag( new PassengerBag( matcher.group( 1 ).trim() ) );
 		route.setEntryPoint( new TerminalGate( matcher.group( 2 ).trim() ) );
 
@@ -76,7 +76,7 @@ class BagRowParserStrategy implements RowParsingStrategy<BagRoute> {
 
 			route.setFlight( new Flight() );
 			route.getFlight().setGate( route.getEntryPoint() );
-			route.getFlight().setFlightId( new FlightId( matcher.group(3).trim() ) );
+			route.getFlight().setFlightId( new FlightId( matcher.group( 3 ).trim() ) );
 		}
 
 		return new SectionRowWrapper<>( route );

@@ -28,7 +28,7 @@ package com.flydenver.bagrouter.domain;
 /**
  * Domain object for gates.
  */
-public class TerminalGate {
+public class TerminalGate implements Identifiable<String> {
 	private final String gateNumber;
 
 	/**
@@ -45,12 +45,16 @@ public class TerminalGate {
 		return gateNumber;
 	}
 
-
 	@Override
 	public boolean equals( Object obj ) {
 		return ( ! (obj instanceof TerminalGate) ) ?
 			   super.equals( obj ) :
 			   ((TerminalGate) obj).getGateNumber().equals( getGateNumber() );
+	}
+
+	@Override
+	public String getId() {
+		return getGateNumber();
 	}
 
 }

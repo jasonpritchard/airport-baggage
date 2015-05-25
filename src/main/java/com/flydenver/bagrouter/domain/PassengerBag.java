@@ -28,7 +28,7 @@ package com.flydenver.bagrouter.domain;
 /**
  * Domain object for passenger's bag.
  */
-public class PassengerBag {
+public class PassengerBag implements Identifiable<String> {
 
 	private String bagNumber;
 	private TerminalGate entryGate;
@@ -95,6 +95,18 @@ public class PassengerBag {
 		this.state = state;
 	}
 
+	@Override
+	public String getId() {
+		return getBagNumber();
+	}
+
+	@Override
+	public boolean equals( Object obj ) {
+		return ( getBagNumber() == null || ! (obj instanceof PassengerBag) ) ?
+			   super.equals( obj ) :
+			   ((PassengerBag) obj).getBagNumber().equals( getBagNumber() );
+	}
+
 
 	/**
 	 * Bag state
@@ -131,11 +143,4 @@ public class PassengerBag {
 		UNCLAIMED
 	}
 
-
-	@Override
-	public boolean equals( Object obj ) {
-		return ( getBagNumber() == null || ! (obj instanceof PassengerBag) ) ?
-			   super.equals( obj ) :
-			   ((PassengerBag) obj).getBagNumber().equals( getBagNumber() );
-	}
 }

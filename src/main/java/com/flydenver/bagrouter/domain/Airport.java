@@ -29,12 +29,12 @@ package com.flydenver.bagrouter.domain;
 /**
  * Domain object for the airport
  */
-public class Airport {
+public class Airport implements Identifiable<String> {
 
 	private String airportId;
 	//private List<TerminalGate> gates = new ArrayList<>( 20 );;
 
-	public Airport() {}
+	//public Airport() {}
 	public Airport(String airportId) {
 		setAirportId(airportId);
 	}
@@ -53,33 +53,10 @@ public class Airport {
 		return airportId;
 	}
 
-	/*
-	 * Get the gates for this airport
-	public List<TerminalGate> getGates() {
-		return gates;
+	@Override
+	public String getId() {
+		return getAirportId();
 	}
-	*/
-
-	/*
-	 * Set the gates for this airport
-	public void setGates(List<TerminalGate> gates) {
-		this.gates = gates;
-	}
-	 */
-
-	/*
-	 * Add a gate to the list of gate.
-	public void addGate(TerminalGate gate) {
-		gates.add(gate);
-	}
-	 */
-
-	/*
-	 * Remove gate from the list of airport gates.
-	public void removeGate(TerminalGate gate) {
-		gates.remove(gate);
-	}
-	 */
 
 	@Override
 	public boolean equals( Object obj ) {

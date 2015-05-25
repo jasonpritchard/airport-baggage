@@ -23,39 +23,28 @@
  *
  */
 
-package com.flydenver.bagrouter.domain;
+package com.flydenver.bagrouter.lexer.section.bag;
+
+import com.flydenver.bagrouter.lexer.section.SectionParser;
+import com.flydenver.bagrouter.lexer.section.SectionType;
 
 /**
- * Flight ID domain object.
+ * {@link SectionParser} for parsing the bag route section. Bag routes are given by
+ * the rules:
+ * <pre>
+ * Section 3: Bag list
+ *     Format: &lt;bag_number&gt; &lt;entry_point&gt; &lt;flight_id&gt;
+ * </pre><pre>
+ * Example:
+ *    0003 A2 UA10
+ * </pre>
  */
-public class FlightId implements Identifiable<String> {
+public class BagEntryParser extends SectionParser<BagEntry> {
 
-	private final String id;
-
-	/**
-	 * Build a flight ID with the given ID.
-	 */
-	public FlightId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * Get the flight ID
-	 */
-	public String getId() {
-		return id;
-	}
-
-	@Override
-	public String toString() {
-		return getId() == null ? super.toString() : getId();
-	}
-
-	@Override
-	public boolean equals( Object obj ) {
-		return (getId() == null || ! (obj instanceof FlightId)) ?
-			   super.equals( obj ) :
-			   getId().equals( ((FlightId) obj).getId() );
+	/** Create a parser for parsing the {@link BagEntry} section. */
+	public BagEntryParser() {
+		setSectionType( SectionType.BAGS );
+		setRowParser( new BagRowParserStrategy() );
 	}
 
 }

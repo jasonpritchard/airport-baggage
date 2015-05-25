@@ -37,7 +37,7 @@ import static org.junit.Assert.fail;
 /**
  * Tests for the bag route parser.
  */
-public class BagRouteTest {
+public class BagEntryTest {
 
 	private BagRowParserStrategy parser;
 	private final String goodFormat = "0003 A2 UA10";
@@ -103,14 +103,14 @@ public class BagRouteTest {
 
 	@Test
 	public void testValidArrivalState() throws ParseException {
-		BagRoute route = parser.parseSectionRow( "0003 A2 ARRIVAL" ).getWrappedRow();
+		BagEntry route = parser.parseSectionRow( "0003 A2 ARRIVAL" ).getWrappedRow();
 		assertNotNull( route );
 		assertEquals( PassengerBag.BagState.ARRIVAL, route.getBag().getBagState() );
 	}
 
 	@Test
 	public void testValidInTransitState() throws ParseException {
-		BagRoute route = parser.parseSectionRow( goodFormat ).getWrappedRow();
+		BagEntry route = parser.parseSectionRow( goodFormat ).getWrappedRow();
 		assertNotNull( route );
 		assertEquals( PassengerBag.BagState.IN_TRANSIT, route.getBag().getBagState() );
 	}

@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * Domain object for flights.
  */
-public class Flight {
+public class Flight implements Identifiable<FlightId> {
 
 	private FlightId flightId;
 	private Airport destination;
@@ -126,6 +126,10 @@ public class Flight {
 		return flightTime != null;
 	}
 
+	@Override
+	public FlightId getId() {
+		return getFlightId();
+	}
 
 	@Override
 	public boolean equals( Object obj ) {

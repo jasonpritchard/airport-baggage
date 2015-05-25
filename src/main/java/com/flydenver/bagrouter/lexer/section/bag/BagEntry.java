@@ -25,26 +25,60 @@
 
 package com.flydenver.bagrouter.lexer.section.bag;
 
-import com.flydenver.bagrouter.lexer.section.SectionParser;
-import com.flydenver.bagrouter.lexer.section.SectionType;
+import com.flydenver.bagrouter.domain.Flight;
+import com.flydenver.bagrouter.domain.PassengerBag;
+import com.flydenver.bagrouter.domain.TerminalGate;
+import com.flydenver.bagrouter.lexer.section.SectionEntry;
 
 /**
- * {@link SectionParser} for parsing the bag route section. Bag routes are given by
- * the rules:
- * <pre>
- * Section 3: Bag list
- *     Format: &lt;bag_number&gt; &lt;entry_point&gt; &lt;flight_id&gt;
- * </pre><pre>
- * Example:
- *    0003 A2 UA10
- * </pre>
+ * Bag route mapping described in the bag list section for the
+ * route input files.
  */
-public class BagRouteParser extends SectionParser<BagRoute> {
+public class BagEntry implements SectionEntry {
+	private PassengerBag bag;
+	private TerminalGate entryPoint;
+	private Flight flight;
 
-	/** Create a parser for parsing the {@link BagRoute} section. */
-	public BagRouteParser() {
-		setSectionType( SectionType.BAGS );
-		setRowParser( new BagRowParserStrategy() );
+	/**
+	 * Get the bag.
+	 */
+	public PassengerBag getBag() {
+		return bag;
+	}
+
+	/**
+	 * Set the bag.
+	 */
+	public void setBag(PassengerBag bag) {
+		this.bag = bag;
+	}
+
+	/**
+	 * Get the entry point for the bag.
+	 */
+	public TerminalGate getEntryPoint() {
+		return entryPoint;
+	}
+
+	/**
+	 * Set the entry gate for the bag.
+	 */
+	public void setEntryPoint(TerminalGate entryPoint) {
+		this.entryPoint = entryPoint;
+	}
+
+	/**
+	 * Get the bag's flight.
+	 */
+	public Flight getFlight() {
+		return flight;
+	}
+
+	/**
+	 * Set the flight the bag is on.
+	 */
+	public void setFlight(Flight flight) {
+		this.flight = flight;
 	}
 
 }
