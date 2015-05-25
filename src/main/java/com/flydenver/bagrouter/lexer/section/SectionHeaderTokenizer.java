@@ -62,19 +62,25 @@ public class SectionHeaderTokenizer {
 	 * @return a tokenizer for the given line
 	 */
 	public static SectionHeaderTokenizer checkLineForSectionHeader( String line ) {
-		if ( line == null ) { return null; }
+		if ( line == null ) {
+			return null;
+		}
+
 		line = line.trim();
 		return sectionHeaderStartPattern.matcher( line ).matches() ? new SectionHeaderTokenizer( line ) : null;
 	}
 
-
-	/** Tokenize a section header line. */
+	/**
+	 * Tokenize a section header line.
+	 */
 	protected SectionHeaderTokenizer( String fullLine ) {
 		this.fullLine = fullLine;
 		tokenizeSectionHeader();
 	}
 
-	/** Split up the header */
+	/**
+	 * Split up the header
+	 */
 	protected void tokenizeSectionHeader() {
 		Matcher matcher = sectionHeaderStartPattern.matcher( this.fullLine );
 		if ( matcher.find() && matcher.groupCount() > 0 ) {
@@ -89,7 +95,6 @@ public class SectionHeaderTokenizer {
 			}
 		}
 	}
-
 
 	/**
 	 * Get the section header name, or null if none was found  

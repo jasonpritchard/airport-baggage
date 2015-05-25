@@ -42,6 +42,7 @@ class ConveyorRowParserStrategy implements RowParsingStrategy<ConveyorRoute> {
 	//	conveyor row should match this format
 	private final static Pattern conveyorRowPattern = Pattern.compile( "^(\\w+\\s+)(\\w+\\s+)(\\d+)$" );
 
+
 	@Override
 	public SectionRowWrapper<ConveyorRoute> parseSectionRow( String sectionLine ) throws ParseException {
 		if ( sectionLine == null ) {
@@ -50,7 +51,7 @@ class ConveyorRowParserStrategy implements RowParsingStrategy<ConveyorRoute> {
 
 		sectionLine = sectionLine.trim();
 
-		if ( sectionLine.contains("\n") || sectionLine.contains("\r\n") ) {
+		if ( sectionLine.contains( "\n" ) || sectionLine.contains( "\r\n" ) ) {
 			throw new IllegalArgumentException( "Too many lines." );
 		}
 
@@ -64,7 +65,7 @@ class ConveyorRowParserStrategy implements RowParsingStrategy<ConveyorRoute> {
 		route.setSecondTermina( new TerminalGate( matcher.group( 2 ).trim() ) );
 		route.setTravelTime( Integer.parseInt( matcher.group( 3 ).trim() ) );
 
-		return new SectionRowWrapper<>(route);
+		return new SectionRowWrapper<>( route );
 	}
 
 }

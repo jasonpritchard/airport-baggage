@@ -47,6 +47,20 @@ public class AirportTest {
 		assertNotEquals( airport1, null );
 		assertNotEquals( airport2, null );
 		assertNotEquals( airport3, null );
+
+		assertNotEquals( airport1, new TerminalGate( "DFW" ) );
+		assertNotEquals( airport2, new TerminalGate( "DFW" ) );
+		assertNotEquals( airport3, new TerminalGate( "DFW" ) );
+
+		assertEquals( airport1.getId(), airport1.getAirportId() );
+		assertEquals( airport2.getId(), airport2.getAirportId() );
+		assertEquals( airport3.getId(), airport3.getAirportId() );
+
+		airport1.setAirportId( "JFK" );
+		assertEquals( airport1, airport2 );
+		assertEquals( airport1.getId(), airport2.getAirportId() );
+		assertEquals( airport2.getId(), airport2.getAirportId() );
+
 	}
 
 }

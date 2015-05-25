@@ -27,7 +27,7 @@ package com.flydenver.bagrouter.lexer;
 
 import com.flydenver.bagrouter.lexer.section.SectionEntry;
 import com.flydenver.bagrouter.lexer.section.SectionParser;
-import com.flydenver.bagrouter.lexer.section.bag.BagRoute;
+import com.flydenver.bagrouter.lexer.section.bag.BagEntry;
 import com.flydenver.bagrouter.lexer.section.conveyor.ConveyorRoute;
 import com.flydenver.bagrouter.lexer.section.departure.Departure;
 
@@ -46,7 +46,7 @@ public class RoutingEvaluator {
 	 * Parse an input source for data of the type {@code T}. {@code T} is one of the subtypes of
 	 * {@link SectionEntry}:
 	 * <ul>
-	 *     <li>{@link BagRoute}</li>
+	 *     <li>{@link BagEntry}</li>
 	 *     <il>{@link ConveyorRoute}</il>
 	 *     <li>{@link Departure}</li>
 	 * </ul>
@@ -67,7 +67,7 @@ public class RoutingEvaluator {
 	 * Parse an input source for data of the type {@code T}. {@code T} is one of the subtypes of
 	 * {@link SectionEntry}:
 	 * <ul>
-	 *     <li>{@link BagRoute}</li>
+	 *     <li>{@link BagEntry}</li>
 	 *     <il>{@link ConveyorRoute}</il>
 	 *     <li>{@link Departure}</li>
 	 * </ul>
@@ -89,7 +89,7 @@ public class RoutingEvaluator {
 	 * Parse an input source for data of the type {@code T}. {@code T} is one of the subtypes of
 	 * {@link SectionEntry}:
 	 * <ul>
-	 *     <li>{@link BagRoute}</li>
+	 *     <li>{@link BagEntry}</li>
 	 *     <il>{@link ConveyorRoute}</il>
 	 *     <li>{@link Departure}</li>
 	 * </ul>
@@ -125,6 +125,7 @@ public class RoutingEvaluator {
 			input.closeQuietly();
 		}
 	}
+
 
 	//	Get the parser for the type of section we want to parse. This takes advantage
 	//	of the fact that all of the parser classes have the same name as the type of

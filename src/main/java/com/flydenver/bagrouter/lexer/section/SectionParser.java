@@ -55,9 +55,8 @@ public abstract class SectionParser<T extends SectionEntry> {
 	 */
 	public void parseSectionLines( Consumer<T> consumer) throws ParseException {
 		if ( consumer == null ) { throw new IllegalArgumentException( "Null consumer" ); }
-		if ( getRowParser() == null ) { throw new ParseException( "Row parser not set." ); }
-		if ( getSectionInput() == null ) { throw new ParseException( "Reader not set." ); }
-		if ( SectionType.UNKNOWN.equals( getSectionType() ) ) { throw new ParseException( "Must set section type first." ); }
+
+		checkReadyToParse();
 
 		getSectionInput().forEachLine((type, line) -> {
 			if ( type.equals( getSectionType() ) ) {
@@ -67,7 +66,9 @@ public abstract class SectionParser<T extends SectionEntry> {
 	}
 
 
-	/** Row parsing getter */
+	/**
+	 * Row parsing getter
+	 */
 	protected RowParsingStrategy<T> getRowParser() {
 		return rowParser;
 	}
@@ -77,30 +78,61 @@ public abstract class SectionParser<T extends SectionEntry> {
 		this.rowParser = rowParser;
 	}
 
-	/** Close the parser and swallow the exceptions */
+	/**
+	 * Close the parser and swallow the exceptions
+	 */
 	public boolean closeQuietly() {
 		return routingInput != null && routingInput.closeQuietly();
 	}
 
-	/** Set the reader input. */
+	/**
+	 * Set the reader input.
+	 */
 	public void setSectionInput( RoutingInput sectionReader ) {
-		if ( sectionReader == null ) { throw new IllegalArgumentException( "Null reader" ); }
+		if ( sectionReader == null ) {
+			throw new IllegalArgumentException( "Null reader" );
+		}
+
 		this.routingInput = sectionReader;
 	}
 
-	/** Get the input reader. */
+	/**
+	 * Get the input reader.
+	 */
 	public RoutingInput getSectionInput() {
 		return routingInput;
 	}
 	
-	/** Set the section identifier we're looking for. */
+	/**
+	 * Set the section identifier we're looking for.
+	 */
 	public void setSectionType( SectionType sectionType ) {
 		this.sectionType = sectionType;
 	}
 
-	/** Get the section identifier to look for. */
+	/**
+	 * Get the section identifier to look for.
+	 */
 	protected SectionType getSectionType() {
 		return sectionType == null ? SectionType.UNKNOWN : sectionType;
+	}
+
+	/**
+	 * Checks that all of the necessary parts are ready for parsing. This will
+	 * throw a {@link ParseException} if something is missing.
+	 */
+	protected void checkReadyToParse() throws ParseException {
+		if ( getRowParser() == null ) {
+			throw new ParseException( "Row parser not set." );
+		}
+
+		if ( getSectionInput() == null ) {
+			throw new ParseException( "Reader not set." );
+		}
+
+		if ( SectionType.UNKNOWN.equals( getSectionType() ) ) {
+			throw new ParseException( "Must set section type first." );
+		}
 	}
 
 }

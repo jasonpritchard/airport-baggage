@@ -28,6 +28,7 @@ package com.flydenver.bagrouter.lexer.section.conveyor;
 import com.flydenver.bagrouter.lexer.section.SectionParser;
 import com.flydenver.bagrouter.lexer.section.SectionType;
 
+
 /**
  * {@link SectionParser} for parsing the conveyor route section. Conveyor routes are given by
  * the rules:
@@ -41,7 +42,9 @@ import com.flydenver.bagrouter.lexer.section.SectionType;
  */
 public class ConveyorRouteParser extends SectionParser<ConveyorRoute> {
 
-	/** Create a parser for parsing the {@link ConveyorRoute} section. */
+	/**
+	 * Create a parser for parsing the {@link ConveyorRoute} section.
+	 */
 	public ConveyorRouteParser() {
 		setSectionType( SectionType.CONVEYOR_SYSTEM );
 		setRowParser( new ConveyorRowParserStrategy() );

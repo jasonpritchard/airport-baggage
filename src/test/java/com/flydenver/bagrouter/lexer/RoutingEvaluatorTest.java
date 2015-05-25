@@ -28,7 +28,7 @@ package com.flydenver.bagrouter.lexer;
 import static org.junit.Assert.assertNotNull;
 
 import com.flydenver.bagrouter.domain.PassengerBag;
-import com.flydenver.bagrouter.lexer.section.bag.BagRoute;
+import com.flydenver.bagrouter.lexer.section.bag.BagEntry;
 import com.flydenver.bagrouter.lexer.section.conveyor.ConveyorRoute;
 import com.flydenver.bagrouter.lexer.section.departure.Departure;
 import org.junit.Test;
@@ -41,22 +41,22 @@ public class RoutingEvaluatorTest {
 	@Test
 	public void testEvaluatorInput() throws ParseException {
 
-		RoutingEvaluator.parseRouting( "routing-input.txt", BagRoute.class, ( bag ) -> {
+		RoutingEvaluator.parseRouting( "routing-input.txt", BagEntry.class, bag -> {
 			assertNotNull( bag.getBag() );
 			assertNotNull( bag.getEntryPoint() );
-			if (!PassengerBag.BagState.ARRIVAL.equals( bag.getBag().getBagState() )) {
+			if ( ! PassengerBag.BagState.ARRIVAL.equals( bag.getBag().getBagState() ) ) {
 				assertNotNull( bag.getFlight() );
 			}
 		});
 
-		RoutingEvaluator.parseRouting( "routing-input.txt", Departure.class, ( departure ) -> {
+		RoutingEvaluator.parseRouting( "routing-input.txt", Departure.class, departure -> {
 			assertNotNull( departure.getFlight() );
 			assertNotNull( departure.getDestination() );
 			assertNotNull( departure.getFlightGate() );
 			assertNotNull( departure.getFlightTime() );
 		});
 
-		RoutingEvaluator.parseRouting( "routing-input.txt", ConveyorRoute.class, ( conveyor ) -> {
+		RoutingEvaluator.parseRouting( "routing-input.txt", ConveyorRoute.class, conveyor -> {
 			assertNotNull( conveyor.getFirstTerminal() );
 			assertNotNull( conveyor.getSecondTerminal() );
 			assertNotNull( conveyor.getTravelTime() );
@@ -64,19 +64,22 @@ public class RoutingEvaluatorTest {
 
 	}
 
-	@Test(expected = ParseException.class)
+
+	@Test( expected = ParseException.class )
 	public void testNullInputBag() throws ParseException {
-		RoutingEvaluator.parseRouting("routing-input.txt", null, (bag) -> { });
+		RoutingEvaluator.parseRouting( "routing-input.txt", null, bag -> {} );
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+
+	@Test( expected = IllegalArgumentException.class )
 	public void testNullInputDeparture() throws ParseException {
-		RoutingEvaluator.parseRouting((Reader) null, Departure.class, (departure) -> { });
+		RoutingEvaluator.parseRouting( (Reader) null, Departure.class, departure -> {} );
 	}
 
-	@Test(expected = ParseException.class)
+
+	@Test( expected = ParseException.class )
 	public void testNullInputConveyorRoute() throws ParseException {
-		RoutingEvaluator.parseRouting(getClass().getResourceAsStream( "/routing-input.txt" ), ConveyorRoute.class, null);
+		RoutingEvaluator.parseRouting( getClass().getResourceAsStream( "/routing-input.txt" ), ConveyorRoute.class, null );
 	}
 
 }

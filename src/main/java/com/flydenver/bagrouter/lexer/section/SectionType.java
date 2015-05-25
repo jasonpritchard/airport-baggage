@@ -59,8 +59,7 @@ public enum SectionType {
 		if ( identifier != null && ! identifier.trim().equals("") ) {
 			for ( SectionType token : values() ) {
 				String tok = token.getIdentifier().replaceAll( "(\\s)*", "" );
-				String id  = identifier.trim().replaceAll( "(\\s)*", "" );
-				if ( tok.equalsIgnoreCase( id ) ) {
+				if ( tok.equalsIgnoreCase( identifier.trim().replaceAll( "(\\s)*", "" ) ) ) {
 					return token;
 				}
 			}
@@ -68,7 +67,6 @@ public enum SectionType {
 
 		return SectionType.UNKNOWN;
 	}
-
 
 	//	ID string
 	private final String identifier;

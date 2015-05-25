@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.flydenver.bagrouter.lexer.RoutingInput;
-import com.flydenver.bagrouter.lexer.section.bag.BagRoute;
-import com.flydenver.bagrouter.lexer.section.bag.BagRouteParser;
+import com.flydenver.bagrouter.lexer.section.bag.BagEntry;
+import com.flydenver.bagrouter.lexer.section.bag.BagEntryParser;
 import com.flydenver.bagrouter.lexer.section.conveyor.ConveyorRoute;
 import com.flydenver.bagrouter.lexer.section.conveyor.ConveyorRouteParser;
 import com.flydenver.bagrouter.lexer.section.departure.Departure;
@@ -57,7 +57,7 @@ public class SectionParserTest {
 	private final static String bagRow = "0004 A8 UA18";
 
 	private DepartureParser validDepartureParser;
-	private BagRouteParser validBagParser;
+	private BagEntryParser validBagParser;
 	private ConveyorRouteParser validConveyorParser;
 
 	@Rule
@@ -66,7 +66,7 @@ public class SectionParserTest {
 	
 	@Before
 	public void startup() {
-		validBagParser = new BagRouteParser();
+		validBagParser = new BagEntryParser();
 		validConveyorParser = new ConveyorRouteParser();
 		validDepartureParser = new DepartureParser();
 
@@ -131,7 +131,7 @@ public class SectionParserTest {
 	public void testNullSectionReaderBag() throws ParseException {
 		nullReaderException.expect( IllegalArgumentException.class );
 		nullReaderException.expectMessage( "Null reader" );
-        BagRouteParser bagParser = new BagRouteParser();
+        BagEntryParser bagParser = new BagEntryParser();
         bagParser.setSectionInput( null );
         bagParser.parseSectionLines(bag -> {});
 	}
@@ -156,7 +156,7 @@ public class SectionParserTest {
 	public void testEmptySectionReaderBag() throws ParseException {
 		nullReaderException.expect( ParseException.class );
 		nullReaderException.expectMessage( "Reader not set" );
-        new BagRouteParser().parseSectionLines(bag -> {});
+        new BagEntryParser().parseSectionLines(bag -> {});
 	}
 
 	@Test
@@ -193,7 +193,7 @@ public class SectionParserTest {
 
 	@Test( expected = ParseException.class )
 	public void testNullSectionTypeBag() throws ParseException {
-        BagRouteParser bagParser = new BagRouteParser();
+        BagEntryParser bagParser = new BagEntryParser();
         bagParser.setSectionInput( new RoutingInput( new StringReader( bagRow ) ) );
 		bagParser.setSectionType( null );
 		bagParser.parseSectionLines(row -> {});
@@ -217,7 +217,7 @@ public class SectionParserTest {
 	
 	@Test( expected = ParseException.class )
 	public void testInvalidSectionTypeBag() throws ParseException {
-        BagRouteParser bagParser = new BagRouteParser();
+        BagEntryParser bagParser = new BagEntryParser();
         bagParser.setSectionInput( new RoutingInput( new StringReader( bagRow ) ) );
         bagParser.setSectionType( SectionType.UNKNOWN );
         bagParser.parseSectionLines(bag -> {});
@@ -240,7 +240,7 @@ public class SectionParserTest {
 
 	@Test( expected = IllegalArgumentException.class )
 	public void testNullConsumerBag() throws ParseException {
-        BagRouteParser bagParser = new BagRouteParser();
+        BagEntryParser bagParser = new BagEntryParser();
         bagParser.setSectionInput( new RoutingInput( new StringReader( bagRow ) ) );
 		bagParser.parseSectionLines( null );
 	}
@@ -264,10 +264,10 @@ public class SectionParserTest {
 
 	@Test
 	public void testMixedSectionTypeBag() throws ParseException {
-        BagRouteParser bagParser = new BagRouteParser();
+        BagEntryParser bagParser = new BagEntryParser();
         bagParser.setSectionInput( new RoutingInput( new StringReader( bagRow ) ) );
         bagParser.setSectionType( SectionType.BAGS );
-		List<BagRoute> routes = new ArrayList<>( 2 );
+		List<BagEntry> routes = new ArrayList<>( 2 );
         bagParser.parseSectionLines( routes::add );
 		assertEquals( routes.size(), 0 );
 	}

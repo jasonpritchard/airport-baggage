@@ -52,7 +52,6 @@ public class RoutingInput {
 		this.reader = new InputStreamReader( getClass().getResourceAsStream( relativePath ) );
 	}
 
-
 	/**
 	 * Construct an input using an input stream.
 	 */
@@ -60,7 +59,6 @@ public class RoutingInput {
 		if ( in == null ) { throw new IllegalArgumentException( "Null routing input" ); }
 		this.reader = new InputStreamReader( in );
 	}
-
 
 	/**
 	 * Construct an input using a reader.
@@ -70,14 +68,12 @@ public class RoutingInput {
 		this.reader = reader;
 	}
 
-
 	/**
 	 * Get this input as a {@link Reader}.
 	 */
 	public Reader getAsReader() {
 		return reader;
 	}
-
 
 	/**
 	 * Close the routing input.
@@ -87,7 +83,6 @@ public class RoutingInput {
 			reader.close();
 		}
 	}
-
 
 	/**
 	 * Close the parser and swallow the exceptions.
@@ -103,7 +98,6 @@ public class RoutingInput {
 		catch ( IOException e ) { /* ignore */ }
 		return ret;
 	}
-
 
 	/**
 	 * For line-based inputs, this iterates through the reader and issues the
@@ -154,7 +148,6 @@ public class RoutingInput {
 	public interface SectionConsumer<T> {
 		void accept( SectionType section, T data ) throws Exception;
 	}
-
 
 	/**
 	 * Try to find a section id based on a given line. This will return the

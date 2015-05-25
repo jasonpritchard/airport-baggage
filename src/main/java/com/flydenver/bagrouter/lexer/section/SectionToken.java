@@ -66,7 +66,6 @@ public enum SectionToken {
 		return SectionToken.UNKNOWN;
 	}
 	
-	
 	//	ID string
 	private final String identifier;
 	public String getIdentifier() { return this.identifier; }

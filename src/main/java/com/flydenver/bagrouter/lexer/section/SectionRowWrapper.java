@@ -32,16 +32,22 @@ public class SectionRowWrapper<T extends SectionEntry> {
 
 	private T wrappedRow;
 
-	public SectionRowWrapper( T wrappedRow ) { setWrappedRow( wrappedRow ); }
+	public SectionRowWrapper( T wrappedRow ) {
+		setWrappedRow( wrappedRow );
+	}
 
 	/**
 	 * Get the wrapped row data
 	 */
-	public T getWrappedRow() { return this.wrappedRow; }
+	public T getWrappedRow() {
+		return this.wrappedRow;
+	}
 
 	/**
 	 * Wrap the row data.
 	 */
-	public void setWrappedRow( T wrappedRow ) { this.wrappedRow = wrappedRow; }
+	public void setWrappedRow( T wrappedRow ) {
+		this.wrappedRow = wrappedRow;
+	}
 
 }

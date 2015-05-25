@@ -34,7 +34,7 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.fail;
 
 /**
- * Tests for the converyer route parsing.
+ * Tests for the converyor route parsing.
  */
 public class ConveyorRouteTest {
 
@@ -55,7 +55,7 @@ public class ConveyorRouteTest {
 
 
 	@Test
-	public void testConveyerRouteParseGood() {
+	public void testConveyorRouteParseGood() {
 		try {
 			parser.parseSectionRow(goodFormaat);
 		}

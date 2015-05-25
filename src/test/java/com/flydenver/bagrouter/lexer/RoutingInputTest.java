@@ -66,17 +66,20 @@ public class RoutingInputTest {
 		input.close();
 	}
 
+
 	@Test( expected = IllegalArgumentException.class )
 	public void testNullReader() {
 		Reader r = null;
 		new RoutingInput( r );
 	}
 
+
 	@Test( expected = IllegalArgumentException.class )
 	public void testNullStream() {
 		InputStream r = null;
 		new RoutingInput( r );
 	}
+
 
 	@Test( expected = IllegalArgumentException.class )
 	public void testNullString() {

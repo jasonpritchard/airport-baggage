@@ -25,7 +25,7 @@
 
 package com.flydenver.bagrouter.lexer;
 
-import com.flydenver.bagrouter.lexer.section.bag.BagRouteTest;
+import com.flydenver.bagrouter.lexer.section.bag.BagEntryTest;
 import com.flydenver.bagrouter.lexer.section.conveyor.ConveyorRouteTest;
 import com.flydenver.bagrouter.lexer.section.departure.DepartureParserTest;
 import com.flydenver.bagrouter.lexer.section.departure.DepartureTest;
@@ -44,7 +44,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 		DepartureParserTest.class,
 		ConveyorRouteTest.class,
-		BagRouteTest.class,
+		BagEntryTest.class,
 		SectionTypeTest.class,
 		SectionTokenTest.class,
 		DepartureTest.class,
