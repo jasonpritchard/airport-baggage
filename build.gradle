@@ -1,6 +1,7 @@
-defaultTasks 'clean', 'test'
+defaultTasks 'clean', 'test', 'run'
 
 
+apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'idea'
 
@@ -13,6 +14,7 @@ targetCompatibility = javaVersion
 
 version = '1.0'
 
+mainClassName = "com.flydenver.bagrouter.BagRouter"
 
 repositories {
     mavenCentral()
