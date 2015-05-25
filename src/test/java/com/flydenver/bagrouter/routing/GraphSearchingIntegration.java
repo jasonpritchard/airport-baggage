@@ -28,7 +28,11 @@ package com.flydenver.bagrouter.routing;
 import com.flydenver.bagrouter.domain.TerminalGate;
 import com.flydenver.bagrouter.lexer.ParseException;
 import com.flydenver.bagrouter.lexer.RoutingEvaluator;
+import com.flydenver.bagrouter.lexer.RoutingInput;
+import com.flydenver.bagrouter.lexer.section.SectionParser;
+import com.flydenver.bagrouter.lexer.section.SectionType;
 import com.flydenver.bagrouter.lexer.section.conveyor.ConveyorRoute;
+import com.flydenver.bagrouter.lexer.section.conveyor.ConveyorRowParser;
 import com.flydenver.bagrouter.routing.search.SearchRouteException;
 import com.flydenver.bagrouter.routing.search.SearchableGraph;
 import com.flydenver.bagrouter.routing.search.dijkstra.DijkstraSearchStrategy;
@@ -88,17 +92,19 @@ public class GraphSearchingIntegration {
 
 
 	private Collection<Edge<TerminalGate>> fillGraph( WeightedGraph<TerminalGate> gateGraph ) throws ParseException {
-//		java.util.PriorityQueue<Edge<TerminalGate>> addedNodes = new java.util.PriorityQueue<>( );
-//		Set<Edge<TerminalGate>> addedNodes = new java.util.TreeSet<>( );
 		Set<Edge<TerminalGate>> addedNodes = new java.util.LinkedHashSet<>( );
-		RoutingEvaluator.parseRouting( "routing-input.txt", ConveyorRoute.class, ( conveyor ) -> {
+
+		SectionParser parser = RoutingEvaluator.multiSectionParser( new RoutingInput( "routing-input.txt" ) );
+		parser.addSectionConsumer( SectionType.CONVEYOR_SYSTEM, new ConveyorRowParser(), entry -> {
+			ConveyorRoute conveyor = (ConveyorRoute)entry;
 			Node<TerminalGate> node1 = new Node<>( conveyor.getFirstTerminal() );
 			Node<TerminalGate> node2 = new Node<>( conveyor.getSecondTerminal() );
 			WeightedEdge<TerminalGate> gateLink = new WeightedEdge<>( node1, node2, conveyor.getTravelTime() );
 			gateGraph.addEdge( gateLink );
-//			gateGraph.addEdge( node1, node2, conveyor.getTravelTime() );
 			addedNodes.add( gateLink );
 		});
+
+		parser.parseSections();
 		return addedNodes;
 	}
 

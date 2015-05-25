@@ -39,7 +39,15 @@ import java.util.regex.Pattern;
 
 
 /**
- * {@link RowParsingDelegate} implementation for parsing Departures section rows.
+ * {@link RowParsingDelegate} implementation for parsing Departures section rows. Departures are given by
+ * the rules:
+ * <pre>
+ * Section 2: Departure list Format:
+ *     &lt;flight_id&gt; &lt;flight_gate&gt; &lt;destination&gt; &lt;flight_time&gt;
+ * </pre><pre>
+ * Example:
+ *     UA11 A1 LAX 09:00
+ * </pre>
  */
 public class DepartureRowParser implements RowParsingDelegate<Departure> {
 

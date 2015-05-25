@@ -36,6 +36,15 @@ import java.util.regex.Pattern;
 
 /**
  * {@link RowParsingDelegate} implementation for parsing the Conveyor System section rows.
+ * Conveyor routes are given by
+ * the rules:
+ * <pre>
+ * Section 1: A weighted bi-directional graph describing the conveyor system.
+ *     Format: &lt;Node 1&gt; &lt;Node 2&gt; &lt;travel_time&gt;
+ * </pre><pre>
+ * Example:
+ *    A5 A1 6
+ * </pre>
  */
 public class ConveyorRowParser implements RowParsingDelegate<ConveyorRoute> {
 

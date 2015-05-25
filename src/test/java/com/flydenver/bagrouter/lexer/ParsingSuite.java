@@ -30,7 +30,6 @@ import com.flydenver.bagrouter.lexer.section.conveyor.ConveyorRouteTest;
 import com.flydenver.bagrouter.lexer.section.departure.DepartureParserTest;
 import com.flydenver.bagrouter.lexer.section.departure.DepartureTest;
 import com.flydenver.bagrouter.lexer.section.SectionHeaderTokenizerTest;
-import com.flydenver.bagrouter.lexer.section.SectionParserTest;
 import com.flydenver.bagrouter.lexer.section.SectionTokenTest;
 import com.flydenver.bagrouter.lexer.section.SectionTypeTest;
 
@@ -49,7 +48,6 @@ import org.junit.runners.Suite;
 		SectionTokenTest.class,
 		DepartureTest.class,
 		SectionHeaderTokenizerTest.class,
-		SectionParserTest.class,
 		RoutingEvaluatorTest.class
 })
 public class ParsingSuite {}

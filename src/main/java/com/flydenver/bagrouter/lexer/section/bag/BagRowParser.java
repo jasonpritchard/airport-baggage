@@ -38,7 +38,15 @@ import java.util.regex.Pattern;
 
 
 /**
- * {@link RowParsingDelegate} implementation for parsing Bag section rows.
+ * {@link RowParsingDelegate} implementation for parsing Bag section rows. Bag routes are given by
+ * the rules:
+ * <pre>
+ * Section 3: Bag list
+ *     Format: &lt;bag_number&gt; &lt;entry_point&gt; &lt;flight_id&gt;
+ * </pre><pre>
+ * Example:
+ *    0003 A2 UA10
+ * </pre>
  */
 public class BagRowParser implements RowParsingDelegate<BagEntry> {
 

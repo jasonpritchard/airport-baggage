@@ -31,7 +31,7 @@ import com.flydenver.bagrouter.domain.TerminalGate;
 import com.flydenver.bagrouter.lexer.ParseException;
 import com.flydenver.bagrouter.lexer.RoutingEvaluator;
 import com.flydenver.bagrouter.lexer.RoutingInput;
-import com.flydenver.bagrouter.lexer.section.MultiSectionParser;
+import com.flydenver.bagrouter.lexer.section.SectionParser;
 import com.flydenver.bagrouter.lexer.section.SectionType;
 import com.flydenver.bagrouter.lexer.section.bag.BagEntry;
 import com.flydenver.bagrouter.lexer.section.bag.BagRowParser;
@@ -96,7 +96,7 @@ public class RoutingEngine {
 	}
 
 
-	//	Inner class to help force re-creating IO. 
+	//	Inner class to help force re-creating IO.
 	protected final class Router {
 
 		private RoutingInput routingInput;
@@ -156,7 +156,7 @@ public class RoutingEngine {
 				final boolean isFinal = bag.getBagState().equals( PassengerBag.BagState.ARRIVAL );
 
 				Node<TerminalGate> endNode;
-				if ( ! isFinal ) {
+				if (!isFinal) {
 					Departure departure = departures.get( entry.getFlight().getFlightId().getId() );
 					endNode = new Node<>( departure.getFlightGate() );
 				}
@@ -166,7 +166,7 @@ public class RoutingEngine {
 				Node<TerminalGate> startNode = new Node<>( entry.getEntryPoint() );
 				NodePath<TerminalGate> path = searchableGraph.findOptimalPath( startNode, endNode );
 				bagRoutes.add( new BagRoute( bag, path ) );
-			});
+			} );
 
 			return bagRoutes;
 		}
@@ -208,15 +208,17 @@ public class RoutingEngine {
 		 * Do the route parsing.
 		 */
 		protected void parseInput() throws ParseException {
-			MultiSectionParser parser = RoutingEvaluator.multiSectionParser( routingInput );
-			parser.addRowParser( SectionType.BAGS, new BagRowParser() );
-			parser.addRowParser( SectionType.DEPARTURES, new DepartureRowParser() );
-			parser.addRowParser( SectionType.CONVEYOR_SYSTEM, new ConveyorRowParser() );
+			SectionParser parser = RoutingEvaluator.multiSectionParser( routingInput );
 
-			parser.addSectionConsumer( SectionType.BAGS, entry -> passengerBags.put( ((BagEntry) entry).getBag().getId(), ((BagEntry) entry) ) );
-			parser.addSectionConsumer( SectionType.DEPARTURES, entry -> departures.put( ((Departure) entry).getFlight().getFlightId().getId(), ((Departure) entry) ) );
+			parser.addSectionConsumer( SectionType.BAGS, new BagRowParser(), entry -> {
+				passengerBags.put( ((BagEntry) entry).getBag().getId(), ((BagEntry) entry) );
+			});
 
-			parser.addSectionConsumer( SectionType.CONVEYOR_SYSTEM, entry -> {
+			parser.addSectionConsumer( SectionType.DEPARTURES, new DepartureRowParser(), entry -> {
+				departures.put( ((Departure) entry).getFlight().getFlightId().getId(), ((Departure) entry) );
+			});
+
+			parser.addSectionConsumer( SectionType.CONVEYOR_SYSTEM, new ConveyorRowParser(), entry -> {
 				ConveyorRoute conveyor = (ConveyorRoute) entry;
 				Node<TerminalGate> node1 = new Node<>( conveyor.getFirstTerminal() );
 				Node<TerminalGate> node2 = new Node<>( conveyor.getSecondTerminal() );
@@ -228,7 +230,7 @@ public class RoutingEngine {
 				if (node2.getNodeId().toString().equalsIgnoreCase( baggageClaimId )) {
 					baggageClaim = node2;
 				}
-			});
+			} );
 
 			parser.parseSections();
 
