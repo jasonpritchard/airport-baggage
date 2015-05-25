@@ -20,6 +20,11 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    testCompile( 'junit:junit:4.12' )
+}
+
+
 
 jar {
     doFirst {
@@ -37,7 +42,10 @@ jar {
 }
 
 
-dependencies {
-    testCompile( 'junit:junit:4.12' )
+test{
+    scanForTestClasses = false
+//    useJUnit {
+//        includeCategories 'com/flydenver/bagrouter/FullSuite'
+//        excludeCategories '**/BagRouteOutputTest$0'
+//    }
 }
-

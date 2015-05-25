@@ -230,7 +230,7 @@ public class RoutingEngine {
 				if (node2.getNodeId().toString().equalsIgnoreCase( baggageClaimId )) {
 					baggageClaim = node2;
 				}
-			} );
+			});
 
 			parser.parseSections();
 

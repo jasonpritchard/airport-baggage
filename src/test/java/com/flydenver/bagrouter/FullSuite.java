@@ -29,7 +29,6 @@ package com.flydenver.bagrouter;
 import com.flydenver.bagrouter.domain.DomainSuite;
 import com.flydenver.bagrouter.lexer.ParsingSuite;
 import com.flydenver.bagrouter.routing.RoutingSuite;
-import com.flydenver.bagrouter.util.GenericUtilsTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -42,7 +41,6 @@ import org.junit.runners.Suite;
 		ParsingSuite.class,
 		DomainSuite.class,
 		RoutingSuite.class,
-		GenericUtilsTest.class,
 		BagRouteOutputTest.class,
 		RoutingEngineTest.class
 })
