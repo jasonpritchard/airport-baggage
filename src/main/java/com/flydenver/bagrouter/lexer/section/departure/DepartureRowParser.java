@@ -30,7 +30,7 @@ import com.flydenver.bagrouter.domain.Flight;
 import com.flydenver.bagrouter.domain.FlightId;
 import com.flydenver.bagrouter.domain.TerminalGate;
 import com.flydenver.bagrouter.lexer.ParseException;
-import com.flydenver.bagrouter.lexer.section.RowParsingStrategy;
+import com.flydenver.bagrouter.lexer.section.RowParsingDelegate;
 import com.flydenver.bagrouter.lexer.section.SectionRowWrapper;
 
 import java.text.SimpleDateFormat;
@@ -39,9 +39,9 @@ import java.util.regex.Pattern;
 
 
 /**
- * {@link RowParsingStrategy} implementation for parsing Departures section rows.
+ * {@link RowParsingDelegate} implementation for parsing Departures section rows.
  */
-public class DepartureRowParser implements RowParsingStrategy<Departure> {
+public class DepartureRowParser implements RowParsingDelegate<Departure> {
 
 	//	departure row should match this format
 	private final static Pattern departureRowPattern = Pattern.compile( "^(\\w+\\s+)(\\w+\\s+)(\\w+\\s+)(\\d{2}:\\d{2})$" );

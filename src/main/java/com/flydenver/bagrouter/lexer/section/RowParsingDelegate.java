@@ -31,7 +31,7 @@ import com.flydenver.bagrouter.lexer.ParseException;
 /**
  * Strategy for parsing individual section rows.
  */
-public interface RowParsingStrategy<T extends SectionEntry> {
+public interface RowParsingDelegate<T extends SectionEntry> {
 
 	/**
 	 * Parse a single line, returning a parsed section node.

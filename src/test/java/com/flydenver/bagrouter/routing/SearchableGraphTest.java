@@ -86,7 +86,7 @@ public class SearchableGraphTest {
 	@Test
 	public void testGetNode() {
 		SearchableGraph<TerminalGate> searchable = new SearchableGraph<>( wg );
-		searchable.setSearchDelegate( strategy );
+		searchable.setSearchStrategy( strategy );
 		assertEquals( a5, searchable.getNode( a5.getNodeId() ) );
 	}
 
@@ -110,7 +110,7 @@ public class SearchableGraphTest {
 	@Test
 	public void testSearchGood1() {
 		SearchableGraph<TerminalGate> search = new SearchableGraph<>( wg );
-		search.setSearchDelegate( strategy );
+		search.setSearchStrategy( strategy );
 
 		assertArrayEquals( search.findOptimalPath( new Node<>( new TerminalGate( "A1" ) ), new Node<>( new TerminalGate( "BaggageClaim" ) ) ).nodes().toArray(), new Node[]{
 				new Node<>( new TerminalGate( "A1" ) ),
@@ -154,7 +154,7 @@ public class SearchableGraphTest {
 	public void testSearchGood2() {
 		WeightedGraph<TerminalGate> wg2 = new WeightedGraph<>();
 		SearchableGraph<TerminalGate> search = new SearchableGraph<>( wg );
-		search.setSearchDelegate( new DijkstraSearchStrategy<>() );
+		search.setSearchStrategy( new DijkstraSearchStrategy<>() );
 
 		wg2.addEdge( new Node<>( new TerminalGate( "Concourse_A_Ticketing" ) ), new Node<>( new TerminalGate( "A5" ) ), 5 );
 		wg2.addEdge(new Node<>(new TerminalGate("A5")),  new Node<>(new TerminalGate("BaggageClaim")),  5);

@@ -1,7 +1,5 @@
 #Airport Baggage - Pathfinding
 
-----
-
 Note: This is just exercise. I have never worked for Denver airport, and I have no idea what they do for bag 
 routing. If your luggage is lost in Denver, I didn't do it.
 

@@ -59,7 +59,7 @@ public class SearchableGraph<T> extends WeightedGraph<T> implements Searchable<T
 	/**
 	 * Set the search strategy to be used.
 	 */
-	public void setSearchDelegate( GraphSearchStrategy<T, WeightedGraph<T>> searchStrategy ) {
+	public void setSearchStrategy( GraphSearchStrategy<T, WeightedGraph<T>> searchStrategy ) {
 		this.searchDelegate = searchStrategy;
 	}
 

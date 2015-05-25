@@ -47,22 +47,30 @@ public class BagRoute {
 	}
 
 
-	/** Getter for the passenger's bag. */
+	/**
+	 * Getter for the passenger's bag.
+	 */
 	public PassengerBag getBag() {
 		return bag;
 	}
 
-	/** Setter for the passenger's bag. */
+	/**
+	 * Setter for the passenger's bag.
+	 */
 	public void setBag( PassengerBag bag ) {
 		this.bag = bag;
 	}
 
-	/** Getter for the {@link NodePath} */
+	/**
+	 * Getter for the {@link NodePath}
+	 */
 	public NodePath<TerminalGate> getBagPath() {
 		return bagPath;
 	}
 
-	/** Setter for the {@link NodePath} */
+	/**
+	 * Setter for the {@link NodePath}
+	 */
 	public void setBagPath( NodePath<TerminalGate> bagPath ) {
 		this.bagPath = bagPath;
 	}

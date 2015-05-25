@@ -68,7 +68,9 @@ public class RoutingEngine {
 
 
 
-	/** Baggage claim ID */
+	/**
+	 * Baggage claim ID
+	 */
 	public void setBaggageClaimId( String baggageClaimId ) {
 		this.baggageClaimId = baggageClaimId;
 	}
@@ -94,7 +96,7 @@ public class RoutingEngine {
 	}
 
 
-	//	Inner class to help force re-creating IO
+	//	Inner class to help force re-creating IO. 
 	protected final class Router {
 
 		private RoutingInput routingInput;
@@ -130,7 +132,9 @@ public class RoutingEngine {
 		}
 
 
-		/** Write a list of passenger bag routes */
+		/**
+		 * Write a list of passenger bag routes
+		 */
 		protected void writeRoutes( List<BagRoute> routes ) throws IOException {
 			for ( BagRoute route : routes ) {
 				routingOutput.writeln( route );
@@ -139,10 +143,12 @@ public class RoutingEngine {
 		}
 
 
-		/** Search for the list of routes for passenger bags */
+		/**
+		 * Search for the list of routes for passenger bags
+		 */
 		protected List<BagRoute> performSearch() {
 			SearchableGraph<TerminalGate> searchableGraph = new SearchableGraph<>( conveyorRoutes );
-			searchableGraph.setSearchDelegate( getSearchStrategy() );
+			searchableGraph.setSearchStrategy( getSearchStrategy() );
 
 			List<BagRoute> bagRoutes = new ArrayList<>( passengerBags.size() );
 			passengerBags.forEach( ( bagid, entry ) -> {
@@ -166,17 +172,23 @@ public class RoutingEngine {
 		}
 
 
-		/** {@link BagRouteOutput} setter. */
+		/**
+		 * {@link BagRouteOutput} setter.
+		 */
 		protected void setRoutingOutput( BagRouteOutput routingOutput ) {
 			this.routingOutput = routingOutput;
 		}
 
-		/** {@link RoutingInput} setter. */
+		/**
+		 * {@link RoutingInput} setter.
+		 */
 		protected void setRoutingInput( RoutingInput input ) {
 			this.routingInput = input;
 		}
 
-		/** cleanup any resources */
+		/**
+		 * Cleanup any resources
+		 */
 		protected void cleanup() {
 			baggageClaim = null;
 			departures.clear();
@@ -184,13 +196,17 @@ public class RoutingEngine {
 			conveyorRoutes.cleanup();
 		}
 
-		/** close IO resources */
+		/**
+		 * Close IO resources
+		 */
 		protected void closeIO() {
 			routingInput.closeQuietly();
 			routingOutput.closeQuietly();
 		}
 
-		/** Do the route parsing. */
+		/**
+		 * Do the route parsing.
+		 */
 		protected void parseInput() throws ParseException {
 			MultiSectionParser parser = RoutingEvaluator.multiSectionParser( routingInput );
 			parser.addRowParser( SectionType.BAGS, new BagRowParser() );
@@ -223,7 +239,9 @@ public class RoutingEngine {
 		}
 
 
-		/** Load a search strategy from the system property */
+		/**
+		 * Load a search strategy from the system property
+		 */
 		@SuppressWarnings( "unchecked" )
 		protected GraphSearchStrategy<TerminalGate, WeightedGraph<TerminalGate>> getSearchStrategy() {
 			if ( searchStrategy != null ) { return searchStrategy; }

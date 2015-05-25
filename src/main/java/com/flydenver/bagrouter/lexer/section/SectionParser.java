@@ -44,7 +44,7 @@ public abstract class SectionParser<T extends SectionEntry> {
 	private SectionType sectionType = SectionType.UNKNOWN;
 
 	//	Strategy for parsing individual section rows
-	private RowParsingStrategy<T> rowParser;
+	private RowParsingDelegate<T> rowParser;
 
 
 	/**
@@ -67,22 +67,30 @@ public abstract class SectionParser<T extends SectionEntry> {
 	}
 
 
-	/** Row parsing getter */
-	protected RowParsingStrategy<T> getRowParser() {
+	/**
+	 * Row parsing getter
+	 */
+	protected RowParsingDelegate<T> getRowParser() {
 		return rowParser;
 	}
 
-	/** Set the row parsing strategy */
-	protected void setRowParser( RowParsingStrategy<T> rowParser ) {
+	/**
+	 * Set the row parsing strategy
+	 */
+	protected void setRowParser( RowParsingDelegate<T> rowParser ) {
 		this.rowParser = rowParser;
 	}
 
-	/** Close the parser and swallow the exceptions */
+	/**
+	 * Close the parser and swallow the exceptions
+	 */
 	public boolean closeQuietly() {
 		return routingInput != null && routingInput.closeQuietly();
 	}
 
-	/** Set the reader input. */
+	/**
+	 * Set the reader input.
+	 */
 	public void setSectionInput( RoutingInput sectionReader ) {
 		if ( sectionReader == null ) {
 			throw new IllegalArgumentException( "Null reader" );
@@ -91,17 +99,23 @@ public abstract class SectionParser<T extends SectionEntry> {
 		this.routingInput = sectionReader;
 	}
 
-	/** Get the input reader. */
+	/**
+	 * Get the input reader.
+	 */
 	public RoutingInput getSectionInput() {
 		return routingInput;
 	}
-	
-	/** Set the section identifier we're looking for. */
+
+	/**
+	 * Set the section identifier we're looking for.
+	 */
 	public void setSectionType( SectionType sectionType ) {
 		this.sectionType = sectionType;
 	}
 
-	/**  Get the section identifier to look for. */
+	/**
+	 * Get the section identifier to look for.
+	 */
 	protected SectionType getSectionType() {
 		return sectionType == null ? SectionType.UNKNOWN : sectionType;
 	}

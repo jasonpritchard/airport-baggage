@@ -38,20 +38,24 @@ import java.util.function.Consumer;
  */
 public class MultiSectionParser {
 
-	private final Map<SectionType, RowParsingStrategy<? extends SectionEntry>> parserList = new HashMap<>( 100 );
+	private final Map<SectionType, RowParsingDelegate<? extends SectionEntry>> parserList = new HashMap<>( 100 );
 	private final Map<SectionType, SectionParsingConsumer<SectionEntry>> consumerList = new HashMap<>( 100 );
 
 	//	Input we plan on parsing
 	private RoutingInput routingInput;
 
 
-	/** Add a row parsing strategy for a given type. */
-	public <T extends SectionEntry> void addRowParser( SectionType type, RowParsingStrategy<T> parsingStrategy ) {
+	/**
+	 * Add a row parsing strategy for a given type.
+	 */
+	public <T extends SectionEntry> void addRowParser( SectionType type, RowParsingDelegate<T> parsingStrategy ) {
 		parserList.put( type, parsingStrategy );
 	}
 
 
-	/** Add a row parsing consumer for a given type. */
+	/**
+	 * Add a row parsing consumer for a given type.
+	 */
 	public void addSectionConsumer( SectionType type, SectionParsingConsumer<SectionEntry> consumer ) {
 		consumerList.put( type, consumer );
 	}
@@ -66,7 +70,7 @@ public class MultiSectionParser {
 
 		getSectionInput().forEachLine( ( type, line ) -> {
 			if ( parserList.containsKey( type ) && consumerList.containsKey( type ) ) {
-				RowParsingStrategy<?> sConsumer = parserList.get( type );
+				RowParsingDelegate<?> sConsumer = parserList.get( type );
 				consumerList.get( type ).accept( sConsumer.parseSectionRow( line ).getWrappedRow() );
 			}
 		});
@@ -75,7 +79,9 @@ public class MultiSectionParser {
 	}
 
 
-	/** Set the reader input. */
+	/**
+	 * Set the reader input.
+	 */
 	public void setSectionInput( RoutingInput sectionReader ) {
 		if ( sectionReader == null ) {
 			throw new IllegalArgumentException( "Null reader" );
@@ -85,7 +91,9 @@ public class MultiSectionParser {
 	}
 
 
-	/** Get the input reader. */
+	/**
+	 * Get the input reader.
+	 */
 	private RoutingInput getSectionInput() {
 		return routingInput;
 	}

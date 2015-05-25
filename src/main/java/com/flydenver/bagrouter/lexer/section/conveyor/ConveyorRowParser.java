@@ -27,7 +27,7 @@ package com.flydenver.bagrouter.lexer.section.conveyor;
 
 import com.flydenver.bagrouter.domain.TerminalGate;
 import com.flydenver.bagrouter.lexer.ParseException;
-import com.flydenver.bagrouter.lexer.section.RowParsingStrategy;
+import com.flydenver.bagrouter.lexer.section.RowParsingDelegate;
 import com.flydenver.bagrouter.lexer.section.SectionRowWrapper;
 
 import java.util.regex.Matcher;
@@ -35,9 +35,9 @@ import java.util.regex.Pattern;
 
 
 /**
- * {@link RowParsingStrategy} implementation for parsing the Conveyor System section rows.
+ * {@link RowParsingDelegate} implementation for parsing the Conveyor System section rows.
  */
-public class ConveyorRowParser implements RowParsingStrategy<ConveyorRoute> {
+public class ConveyorRowParser implements RowParsingDelegate<ConveyorRoute> {
 
 	//	conveyor row should match this format
 	private final static Pattern conveyorRowPattern = Pattern.compile( "^(\\w+\\s+)(\\w+\\s+)(\\d+)$" );
@@ -62,7 +62,7 @@ public class ConveyorRowParser implements RowParsingStrategy<ConveyorRoute> {
 
 		ConveyorRoute route = new ConveyorRoute();
 		route.setFirstTerminal( new TerminalGate( matcher.group( 1 ).trim() ) );
-		route.setSecondTermina( new TerminalGate( matcher.group( 2 ).trim() ) );
+		route.setSecondTerminal( new TerminalGate( matcher.group( 2 ).trim() ) );
 		route.setTravelTime( Integer.parseInt( matcher.group( 3 ).trim() ) );
 
 		return new SectionRowWrapper<>( route );

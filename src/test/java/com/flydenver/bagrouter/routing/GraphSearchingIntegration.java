@@ -48,7 +48,7 @@ public class GraphSearchingIntegration {
 	public void testGraphAdd() throws ParseException {
 		WeightedGraph<TerminalGate> gateGraph = new WeightedGraph<>();
 		SearchableGraph<TerminalGate> searchableGraph = new SearchableGraph<>( gateGraph );
-		searchableGraph.setSearchDelegate( new DijkstraSearchStrategy<>() );
+		searchableGraph.setSearchStrategy( new DijkstraSearchStrategy<>() );
 		assertArrayEquals( fillGraph( gateGraph ).toArray(), gateGraph.edges().toArray() );
 	}
 
@@ -57,7 +57,7 @@ public class GraphSearchingIntegration {
 	public void testSearchGraphAdd() throws ParseException {
 		WeightedGraph<TerminalGate> gateGraph = new WeightedGraph<>();
 		SearchableGraph<TerminalGate> searchableGraph = new SearchableGraph<>( gateGraph );
-		searchableGraph.setSearchDelegate( new DijkstraSearchStrategy<>() );
+		searchableGraph.setSearchStrategy( new DijkstraSearchStrategy<>() );
 		assertArrayEquals( fillGraph( searchableGraph ).toArray(), searchableGraph.edges().toArray() );
 	}
 
@@ -66,7 +66,7 @@ public class GraphSearchingIntegration {
 	public void testGraphSearching() throws ParseException {
 		WeightedGraph<TerminalGate> gateGraph = new WeightedGraph<>();
 		SearchableGraph<TerminalGate> searchableGraph = new SearchableGraph<>( gateGraph );
-		searchableGraph.setSearchDelegate( new DijkstraSearchStrategy<>() );
+		searchableGraph.setSearchStrategy( new DijkstraSearchStrategy<>() );
 		fillGraph( gateGraph );
 
 		assertArrayEquals( searchableGraph.findOptimalPath( new Node<>( new TerminalGate( "A1" ) ), new Node<>( new TerminalGate( "A2" ) ) ).nodes().toArray(), new Node[]{

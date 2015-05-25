@@ -29,27 +29,36 @@ import com.flydenver.bagrouter.lexer.ParseException;
 import com.flydenver.bagrouter.lexer.RoutingInput;
 import com.flydenver.bagrouter.routing.RoutingException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 
 /**
  * This is just a main runner class.
  */
 public class BagRouter {
 
-	public final static void main( String [] args ) {
+	public static void main( String [] args ) {
 		String inputFile = ( args.length < 1 ) ? "routing-input.txt" : args[0];
 
 		try {
+			File file = new File( inputFile );
+			if ( ! file.exists() ) {
+				throw new FileNotFoundException( inputFile );
+			}
+
 			System.out.println();
-			System.out.println( "[*] Dumping input" );
+			System.out.println( "[*] Dumping input " + inputFile );
 			System.out.println( "[*] ------------------" );
-			new RoutingInput( inputFile ).forEachLine( ( type, line ) -> System.out.println( line ) );
+			new RoutingInput( new FileInputStream( file ) ).forEachLine( ( type, line ) -> System.out.println( line ) );
 			System.out.println( "[*] ------------------" );
 
 			System.out.println();
 			System.out.println();
 			System.out.println( "[*] Routing Table" );
 			System.out.println( "[*] ------------------" );
-			RoutingInput input = new RoutingInput( inputFile );
+			RoutingInput input = new RoutingInput( new FileInputStream( file ) );
 			BagRouteOutput output = new BagRouteOutput( System.out );
 			RoutingEngine engine = new RoutingEngine();
 			engine.executeSearch( input, output );
@@ -59,6 +68,9 @@ public class BagRouter {
 		}
 		catch ( RoutingException | ParseException e ) {
 			System.err.println( "Error routing. " + e.getMessage() );
+		}
+		catch ( FileNotFoundException e ) {
+			System.err.println( "Could not find file. " + e.getMessage() );
 		}
 
 	}

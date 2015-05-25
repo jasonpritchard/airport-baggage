@@ -36,7 +36,9 @@ import java.io.Reader;
 
 
 /**
- * This is a container for the input of sections into the parsers.
+ * This is a container for the input of sections into the parsers. The reader
+ * that backs this object, should only be used once. That means this object should
+ * be re-created if an input needs to be read multiple times.
  */
 public class RoutingInput {
 

@@ -63,7 +63,7 @@ public class ConveyorRoute implements SectionEntry {
 	/**
 	 * Set the second gate node.
 	 */
-	public void setSecondTermina( TerminalGate secondNode ) {
+	public void setSecondTerminal( TerminalGate secondNode ) {
 		this.secondNode = secondNode;
 	}
 

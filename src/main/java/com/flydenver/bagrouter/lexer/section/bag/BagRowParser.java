@@ -30,7 +30,7 @@ import com.flydenver.bagrouter.domain.FlightId;
 import com.flydenver.bagrouter.domain.PassengerBag;
 import com.flydenver.bagrouter.domain.TerminalGate;
 import com.flydenver.bagrouter.lexer.ParseException;
-import com.flydenver.bagrouter.lexer.section.RowParsingStrategy;
+import com.flydenver.bagrouter.lexer.section.RowParsingDelegate;
 import com.flydenver.bagrouter.lexer.section.SectionRowWrapper;
 
 import java.util.regex.Matcher;
@@ -38,9 +38,9 @@ import java.util.regex.Pattern;
 
 
 /**
- * {@link RowParsingStrategy} implementation for parsing Bag section rows.
+ * {@link RowParsingDelegate} implementation for parsing Bag section rows.
  */
-public class BagRowParser implements RowParsingStrategy<BagEntry> {
+public class BagRowParser implements RowParsingDelegate<BagEntry> {
 
 	//	conveyor row should match this format
 	private final static Pattern bagRowPattern = Pattern.compile( "^(\\d+\\s+)(\\w+\\s+)(\\w+)$" );

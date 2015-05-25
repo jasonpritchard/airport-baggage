@@ -40,16 +40,6 @@ public class NodePath<T> {
 	private int totalDistance;
 
 
-	/*
-	 * Create a path initialized with a set of nodes.
-	 * @param nodes node path
-
-	public NodePath( List<Node<T>> nodes ) {
-		this( nodes, 0 );
-	}
-	*/
-
-
 	/**
 	 * Create a path initialized with a set of nodes and a total distance.
 	 * @param nodes node path
