@@ -44,7 +44,7 @@ public class DepartureParser extends SectionParser<Departure> {
 	/** Create a parser for parsing the {@link Departure} section. */
 	public DepartureParser() {
 		setSectionType( SectionType.DEPARTURES );
-		setRowParser( new DepartureRowParserStrategy() );
+		setRowParser( new DepartureRowParser() );
     }
 
 }

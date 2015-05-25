@@ -40,14 +40,14 @@ public class ConveyorRouteTest {
 
 	private final String goodFormaat = "A1 A2 3";
 
-	private ConveyorRowParserStrategy parser;
+	private ConveyorRowParser parser;
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 
 	@Before
 	public void setup() {
-		parser = new ConveyorRowParserStrategy();
+		parser = new ConveyorRowParser();
 	}
 
 	

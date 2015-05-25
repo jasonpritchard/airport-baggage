@@ -44,7 +44,7 @@ public class BagEntryParser extends SectionParser<BagEntry> {
 	/** Create a parser for parsing the {@link BagEntry} section. */
 	public BagEntryParser() {
 		setSectionType( SectionType.BAGS );
-		setRowParser( new BagRowParserStrategy() );
+		setRowParser( new BagRowParser() );
 	}
 
 }

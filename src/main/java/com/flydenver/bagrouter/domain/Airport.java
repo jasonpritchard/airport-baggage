@@ -63,4 +63,9 @@ public class Airport implements Identifiable<String> {
 		return ( getAirportId() == null || ! ( obj instanceof Airport) ) ? super.equals( obj ) : ((Airport) obj).getAirportId().equals( getAirportId() );
 	}
 
+	@Override
+	public String toString() {
+		return getId();
+	}
+
 }

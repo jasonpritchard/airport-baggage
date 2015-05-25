@@ -138,4 +138,9 @@ public class Flight implements Identifiable<FlightId> {
 			   ((Flight) obj).getFlightId().equals( getFlightId() );
 	}
 
+	@Override
+	public String toString() {
+		return getId().getId();
+	}
+
 }

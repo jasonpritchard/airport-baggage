@@ -61,6 +61,8 @@ public class AirportTest {
 		assertEquals( airport1.getId(), airport2.getAirportId() );
 		assertEquals( airport2.getId(), airport2.getAirportId() );
 
+		assertEquals( "JFK", airport1.toString() );
+
 	}
 
 }

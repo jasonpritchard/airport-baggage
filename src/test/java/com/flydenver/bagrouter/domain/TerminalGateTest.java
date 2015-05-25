@@ -47,6 +47,8 @@ public class TerminalGateTest {
 		assertNotEquals( gate1, null );
 		assertNotEquals( gate2, null );
 		assertNotEquals( gate3, null );
+
+		assertEquals( gate1.toString(), "A1" );
 	}
 
 }

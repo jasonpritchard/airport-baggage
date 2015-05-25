@@ -27,6 +27,7 @@ package com.flydenver.bagrouter.lexer;
 
 import com.flydenver.bagrouter.lexer.section.SectionEntry;
 import com.flydenver.bagrouter.lexer.section.SectionParser;
+import com.flydenver.bagrouter.lexer.section.MultiSectionParser;
 import com.flydenver.bagrouter.lexer.section.bag.BagEntry;
 import com.flydenver.bagrouter.lexer.section.conveyor.ConveyorRoute;
 import com.flydenver.bagrouter.lexer.section.departure.Departure;
@@ -107,9 +108,25 @@ public class RoutingEvaluator {
 	}
 
 
-	//	Convenience for the above parse methods.
-	//	This will handle closing the input.
-	private static <T extends SectionEntry> void parseRouting( RoutingInput input, Class<T> clazz, Consumer<T> consumer ) throws ParseException {
+	/**
+	 * Parse an input source for data of the type {@code T}. {@code T} is one of the subtypes of
+	 * {@link SectionEntry}:
+	 * <ul>
+	 *     <li>{@link BagEntry}</li>
+	 *     <il>{@link ConveyorRoute}</il>
+	 *     <li>{@link Departure}</li>
+	 * </ul>
+	 * This is a facade for the {@link SectionParser#parseSectionLines(Consumer)}. This will
+	 * handle closing the input.
+	 *
+	 * @see {@link SectionParser#parseSectionLines(Consumer)}
+	 * @param input {@link RoutingInput} input of routing data
+	 * @param clazz section type of data to parse
+	 * @param consumer parsing callback for data of the type {@code clazz}
+	 * @param <T> one of the {@link SectionEntry} types
+	 * @throws ParseException
+	 */
+	public static <T extends SectionEntry> void parseRouting( RoutingInput input, Class<T> clazz, Consumer<T> consumer ) throws ParseException {
 		try {
 			SectionParser<T> parser = getParserForParsedType( clazz );
 			parser.setSectionInput( input );
@@ -124,6 +141,20 @@ public class RoutingEvaluator {
 		finally {
 			input.closeQuietly();
 		}
+	}
+
+
+	/**
+	 * Create a {@link MultiSectionParser}. This allows you to parse multiple types of section
+	 * data on a single callback. The problem with the other consumes is that you must supply
+	 * individual readers for each parser. This will handle closing the input.
+	 *
+	 * @param input {@link RoutingInput} input of routing data
+	 */
+	public static MultiSectionParser multiSectionParser( RoutingInput input ) throws ParseException {
+		MultiSectionParser parser = new MultiSectionParser( );
+		parser.setSectionInput( input );
+		return parser;
 	}
 
 

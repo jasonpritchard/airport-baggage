@@ -52,9 +52,9 @@ public class FlightIdTest {
 
 	@Test
 	public void testFlightIdToString() {
-		id1.toString().equals( "UA101" );
-		id2.toString().equals( "FF101" );
-		id3.toString().equals( "UA101" );
+		assertEquals( id1.toString(), "UA101" );
+		assertEquals( id2.toString(), "FF101" );
+		assertEquals( id3.toString(), "UA101" );
 	}
 
 }

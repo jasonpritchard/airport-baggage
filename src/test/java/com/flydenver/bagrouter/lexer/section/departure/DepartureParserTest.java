@@ -40,14 +40,14 @@ import static org.junit.Assert.fail;
  */
 public class DepartureParserTest {
 
-	private DepartureRowParserStrategy departureParser;
+	private DepartureRowParser departureParser;
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 
 	@Before
 	public void setup() {
-		departureParser = new DepartureRowParserStrategy();
+		departureParser = new DepartureRowParser();
 	}
 
 	@After

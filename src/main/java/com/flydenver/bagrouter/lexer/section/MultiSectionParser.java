@@ -28,59 +28,52 @@ package com.flydenver.bagrouter.lexer.section;
 import com.flydenver.bagrouter.lexer.ParseException;
 import com.flydenver.bagrouter.lexer.RoutingInput;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 
 /**
- * Section parsing classes. This is meant to parse certain specified sections of a
- * {@link RoutingInput} and feed them to a {@link Consumer} of those {@link SectionType}s.
+ * Wrapper for parsing multiple section types.
  */
-public abstract class SectionParser<T extends SectionEntry> {
+public class MultiSectionParser {
+
+	private final Map<SectionType, RowParsingStrategy<? extends SectionEntry>> parserList = new HashMap<>( 100 );
+	private final Map<SectionType, SectionParsingConsumer<SectionEntry>> consumerList = new HashMap<>( 100 );
 
 	//	Input we plan on parsing
 	private RoutingInput routingInput;
-	
-	//	Which section we're interested in
-	private SectionType sectionType = SectionType.UNKNOWN;
 
-	//	Strategy for parsing individual section rows
-	private RowParsingStrategy<T> rowParser;
+
+	/** Add a row parsing strategy for a given type. */
+	public <T extends SectionEntry> void addRowParser( SectionType type, RowParsingStrategy<T> parsingStrategy ) {
+		parserList.put( type, parsingStrategy );
+	}
+
+
+	/** Add a row parsing consumer for a given type. */
+	public void addSectionConsumer( SectionType type, SectionParsingConsumer<SectionEntry> consumer ) {
+		consumerList.put( type, consumer );
+	}
 
 
 	/**
 	 * Parse through the {@link RoutingInput} looking for the {@link SectionType}.
-	 * Once a section is found, give each line to the {@link Consumer} for processing. 
-	 *
-	 * @param consumer callback to deal with section lines.
-	 * @throws ParseException
+	 * Once a section is found, give each line to the {@link Consumer} for processing.
 	 */
-	public void parseSectionLines( Consumer<T> consumer) throws ParseException {
-		if ( consumer == null ) { throw new IllegalArgumentException( "Null consumer" ); }
-
+	public void parseSections( ) throws ParseException {
 		checkReadyToParse();
 
-		getSectionInput().forEachLine((type, line) -> {
-			if ( type.equals( getSectionType() ) ) {
-				consumer.accept( getRowParser().parseSectionRow( line ).getWrappedRow() );
+		getSectionInput().forEachLine( ( type, line ) -> {
+			if ( parserList.containsKey( type ) && consumerList.containsKey( type ) ) {
+				RowParsingStrategy<?> sConsumer = parserList.get( type );
+				consumerList.get( type ).accept( sConsumer.parseSectionRow( line ).getWrappedRow() );
 			}
 		});
+
+		getSectionInput().closeQuietly();
 	}
 
-
-	/** Row parsing getter */
-	protected RowParsingStrategy<T> getRowParser() {
-		return rowParser;
-	}
-
-	/** Set the row parsing strategy */
-	protected void setRowParser( RowParsingStrategy<T> rowParser ) {
-		this.rowParser = rowParser;
-	}
-
-	/** Close the parser and swallow the exceptions */
-	public boolean closeQuietly() {
-		return routingInput != null && routingInput.closeQuietly();
-	}
 
 	/** Set the reader input. */
 	public void setSectionInput( RoutingInput sectionReader ) {
@@ -91,36 +84,20 @@ public abstract class SectionParser<T extends SectionEntry> {
 		this.routingInput = sectionReader;
 	}
 
+
 	/** Get the input reader. */
-	public RoutingInput getSectionInput() {
+	private RoutingInput getSectionInput() {
 		return routingInput;
 	}
-	
-	/** Set the section identifier we're looking for. */
-	public void setSectionType( SectionType sectionType ) {
-		this.sectionType = sectionType;
-	}
 
-	/**  Get the section identifier to look for. */
-	protected SectionType getSectionType() {
-		return sectionType == null ? SectionType.UNKNOWN : sectionType;
-	}
 
 	/**
 	 * Checks that all of the necessary parts are ready for parsing. This will
 	 * throw a {@link ParseException} if something is missing.
 	 */
 	protected void checkReadyToParse() throws ParseException {
-		if ( getRowParser() == null ) {
-			throw new ParseException( "Row parser not set." );
-		}
-
 		if ( getSectionInput() == null ) {
 			throw new ParseException( "Reader not set." );
-		}
-
-		if ( SectionType.UNKNOWN.equals( getSectionType() ) ) {
-			throw new ParseException( "Must set section type first." );
 		}
 	}
 

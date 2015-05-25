@@ -47,7 +47,7 @@ public class ConveyorRouteParser extends SectionParser<ConveyorRoute> {
 	 */
 	public ConveyorRouteParser() {
 		setSectionType( SectionType.CONVEYOR_SYSTEM );
-		setRowParser( new ConveyorRowParserStrategy() );
+		setRowParser( new ConveyorRowParser() );
 	}
 
 }

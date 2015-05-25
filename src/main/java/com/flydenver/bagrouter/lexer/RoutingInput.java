@@ -40,7 +40,8 @@ import java.io.Reader;
  */
 public class RoutingInput {
 
-	private final Reader reader;
+	private final int markReadLimit = 16 * 1024;
+	private final BufferedReader reader;
 
 
 	/**
@@ -49,7 +50,7 @@ public class RoutingInput {
 	public RoutingInput( String relativePath ) {
 		if ( relativePath == null ) { throw new IllegalArgumentException( "Null routing input" ); }
 		relativePath = relativePath.startsWith( "/" ) ? relativePath : "/".concat( relativePath );
-		this.reader = new InputStreamReader( getClass().getResourceAsStream( relativePath ) );
+		this.reader = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream( relativePath ) ) );
 	}
 
 	/**
@@ -57,7 +58,7 @@ public class RoutingInput {
 	 */
 	public RoutingInput( InputStream in ) {
 		if ( in == null ) { throw new IllegalArgumentException( "Null routing input" ); }
-		this.reader = new InputStreamReader( in );
+		this.reader = new BufferedReader( new InputStreamReader( in ) );
 	}
 
 	/**
@@ -65,7 +66,7 @@ public class RoutingInput {
 	 */
 	public RoutingInput( Reader reader ) {
 		if ( reader == null ) { throw new IllegalArgumentException( "Null routing input" ); }
-		this.reader = reader;
+		this.reader = new BufferedReader( reader );
 	}
 
 	/**
@@ -110,9 +111,10 @@ public class RoutingInput {
 		if ( lineConsumer == null ) { throw new IllegalArgumentException( "Null consumer" ); }
 		if ( getAsReader() == null ) { throw new ParseException( "Must set reader first." ); }
 
-		try ( BufferedReader reader = new BufferedReader( getAsReader() ) ) {
+		//try ( BufferedReader reader = new BufferedReader( getAsReader() ) ) {
+		try {
 			exceptionIterating = null;
-			//reader.reset();
+			//reader.mark( markReadLimit );
 
 			String line;
 			SectionType currentType = SectionType.UNKNOWN;
@@ -127,6 +129,7 @@ public class RoutingInput {
 				lineConsumer.accept( currentType, line );
 			}
 
+			//reader.reset();
 		}
 		catch ( Exception e ) {
 			ParseException pe = new ParseException( "Error parsing section input. " + e.getMessage(), e );

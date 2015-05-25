@@ -57,4 +57,9 @@ public class TerminalGate implements Identifiable<String> {
 		return getGateNumber();
 	}
 
+	@Override
+	public String toString() {
+		return getId();
+	}
+
 }

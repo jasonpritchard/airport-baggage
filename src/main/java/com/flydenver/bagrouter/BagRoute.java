@@ -23,37 +23,48 @@
  *
  */
 
-package com.flydenver.bagrouter.domain;
+package com.flydenver.bagrouter;
+
+import com.flydenver.bagrouter.domain.PassengerBag;
+import com.flydenver.bagrouter.domain.TerminalGate;
+import com.flydenver.bagrouter.routing.search.NodePath;
 
 
-import org.junit.Test;
+/**
+ * Bag routing for output.
+ */
+public class BagRoute {
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+	private PassengerBag bag;
+	private NodePath<TerminalGate> bagPath;
 
 
-public class BagTest {
+	public BagRoute() { }
+	public BagRoute( PassengerBag bag, NodePath<TerminalGate> bagPath ) {
+		this();
+		setBag( bag );
+		setBagPath( bagPath );
+	}
 
-	private final PassengerBag bag1 = new PassengerBag( "001" );
-	private final PassengerBag bag2 = new PassengerBag( "002" );
-	private final PassengerBag bag3 = new PassengerBag( "003" );
-	private final PassengerBag bag4 = new PassengerBag( "001" );
 
-	@Test
-	public void testBagsEqual() {
-		assertEquals( bag1, bag4 );
-		assertNotEquals( bag1, bag2 );
-		assertNotEquals( bag1, bag3 );
-		assertNotEquals( bag2, bag3 );
-		assertNotEquals( bag2, bag4 );
-		assertNotEquals( bag4, bag3 );
+	/** Getter for the passenger's bag. */
+	public PassengerBag getBag() {
+		return bag;
+	}
 
-		assertNotEquals( bag1, null );
-		assertNotEquals( bag2, null );
-		assertNotEquals( bag3, null );
-		assertNotEquals( bag4, null );
+	/** Setter for the passenger's bag. */
+	public void setBag( PassengerBag bag ) {
+		this.bag = bag;
+	}
 
-		assertEquals( "001", bag1.toString() );
+	/** Getter for the {@link NodePath} */
+	public NodePath<TerminalGate> getBagPath() {
+		return bagPath;
+	}
+
+	/** Setter for the {@link NodePath} */
+	public void setBagPath( NodePath<TerminalGate> bagPath ) {
+		this.bagPath = bagPath;
 	}
 
 }

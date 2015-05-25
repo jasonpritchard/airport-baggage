@@ -31,8 +31,6 @@ package com.flydenver.bagrouter.domain;
 public class PassengerBag implements Identifiable<String> {
 
 	private String bagNumber;
-	private TerminalGate entryGate;
-	private Flight flight;
 	private BagState state = BagState.UNKNOWN;
 
 	public PassengerBag(String bagNumber) {
@@ -51,34 +49,6 @@ public class PassengerBag implements Identifiable<String> {
 	 */
 	public void setBagNumber( String bagNumber ) {
 		this.bagNumber = bagNumber;
-	}
-
-	/**
-	 * Get the entry gate.
-	 */
-	public TerminalGate getEntryGate() {
-		return this.entryGate;
-	}
-
-	/**
-	 * Set the entry gate.
-	 */
-	public void setEntryGate( TerminalGate entryGate ) {
-		this.entryGate = entryGate;
-	}
-
-	/**
-	 * Get the flight this bag is on.
-	 */
-	public Flight getFlight() {
-		return this.flight;
-	}
-
-	/**
-	 * Set the flight this bag is on.
-	 */
-	public void setFlight( Flight flight ) {
-		this.flight = flight;
 	}
 
 	/**
@@ -105,6 +75,11 @@ public class PassengerBag implements Identifiable<String> {
 		return ( getBagNumber() == null || ! (obj instanceof PassengerBag) ) ?
 			   super.equals( obj ) :
 			   ((PassengerBag) obj).getBagNumber().equals( getBagNumber() );
+	}
+
+	@Override
+	public String toString() {
+		return getBagNumber();
 	}
 
 

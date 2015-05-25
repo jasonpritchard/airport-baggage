@@ -23,62 +23,49 @@
  *
  */
 
-package com.flydenver.bagrouter.lexer.section.departure;
+package com.flydenver.bagrouter.lexer.section.conveyor;
 
-import com.flydenver.bagrouter.domain.Airport;
-import com.flydenver.bagrouter.domain.Flight;
-import com.flydenver.bagrouter.domain.FlightId;
 import com.flydenver.bagrouter.domain.TerminalGate;
 import com.flydenver.bagrouter.lexer.ParseException;
 import com.flydenver.bagrouter.lexer.section.RowParsingStrategy;
 import com.flydenver.bagrouter.lexer.section.SectionRowWrapper;
 
-import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 /**
- * {@link RowParsingStrategy} implementation for parsing Departures section rows.
+ * {@link RowParsingStrategy} implementation for parsing the Conveyor System section rows.
  */
-class DepartureRowParserStrategy implements RowParsingStrategy<Departure> {
+public class ConveyorRowParser implements RowParsingStrategy<ConveyorRoute> {
 
-	//	departure row should match this format
-	private final static Pattern departureRowPattern = Pattern.compile( "^(\\w+\\s+)(\\w+\\s+)(\\w+\\s+)(\\d{2}:\\d{2})$" );
+	//	conveyor row should match this format
+	private final static Pattern conveyorRowPattern = Pattern.compile( "^(\\w+\\s+)(\\w+\\s+)(\\d+)$" );
 
-	//	string to extract flight time
-	private final static SimpleDateFormat dateFormat = new SimpleDateFormat( "HH:mm" );
 
 	@Override
-	public SectionRowWrapper<Departure> parseSectionRow( String sectionLine ) throws ParseException {
+	public SectionRowWrapper<ConveyorRoute> parseSectionRow( String sectionLine ) throws ParseException {
 		if ( sectionLine == null ) {
 			throw new IllegalArgumentException( "Invalid line (null)." );
 		}
 
 		sectionLine = sectionLine.trim();
 
-		if ( sectionLine.contains("\n") || sectionLine.contains("\r\n") ) {
+		if ( sectionLine.contains( "\n" ) || sectionLine.contains( "\r\n" ) ) {
 			throw new IllegalArgumentException( "Too many lines." );
 		}
 
-		Matcher matcher = departureRowPattern.matcher( sectionLine );
+		Matcher matcher = conveyorRowPattern.matcher( sectionLine );
 		if ( !matcher.find() ) {
-			throw new ParseException( "Departure line doesn't match pattern " + departureRowPattern.toString() );
+			throw new ParseException( "Conveyor route line doesn't match pattern " + conveyorRowPattern.toString() );
 		}
 
-		Flight flight = new Flight();
-		flight.setGate( new TerminalGate( matcher.group( 2 ).trim() ) );
-		flight.setFlightId( new FlightId( matcher.group( 1 ).trim() ) );
-		flight.setDestination( new Airport( matcher.group( 3 ).trim() ) );
+		ConveyorRoute route = new ConveyorRoute();
+		route.setFirstTerminal( new TerminalGate( matcher.group( 1 ).trim() ) );
+		route.setSecondTermina( new TerminalGate( matcher.group( 2 ).trim() ) );
+		route.setTravelTime( Integer.parseInt( matcher.group( 3 ).trim() ) );
 
-		try {
-			flight.setFlightTime( dateFormat.parse( matcher.group( 4 ).trim() ) );
-		}
-		catch ( java.text.ParseException e ) {
-			throw new ParseException( "Invalid flight time. " + matcher.group( 4 ).trim() );
-		}
-
-		return new SectionRowWrapper<>( Departure.fillInFromFlightInfo( flight ) );
+		return new SectionRowWrapper<>( route );
 	}
 
 }

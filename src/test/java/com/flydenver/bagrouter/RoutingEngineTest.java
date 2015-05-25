@@ -23,37 +23,48 @@
  *
  */
 
-package com.flydenver.bagrouter.domain;
+package com.flydenver.bagrouter;
 
-
+import com.flydenver.bagrouter.lexer.RoutingInput;
+import com.flydenver.bagrouter.routing.RoutingException;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.StringWriter;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 
-public class BagTest {
+/**
+ * Integration tests for the {@link RoutingEngine}
+ */
+public class RoutingEngineTest {
 
-	private final PassengerBag bag1 = new PassengerBag( "001" );
-	private final PassengerBag bag2 = new PassengerBag( "002" );
-	private final PassengerBag bag3 = new PassengerBag( "003" );
-	private final PassengerBag bag4 = new PassengerBag( "001" );
+	private StringBuilder sampleOutput;
+
+
+	@Before
+	public void setup() {
+		sampleOutput = new StringBuilder( 500 );
+		sampleOutput.append( "0001 Concourse_A_Ticketing A5 A1 : 11\n" );
+		sampleOutput.append( "0002 A5 A1 A2 A3 A4 : 9\n" );
+		sampleOutput.append( "0003 A2 A1 : 1\n" );
+		sampleOutput.append( "0004 A8 A9 A10 A5 : 6\n" );
+		sampleOutput.append( "0005 A7 A8 A9 A10 A5 BaggageClaim : 12\n" );
+	}
+
 
 	@Test
-	public void testBagsEqual() {
-		assertEquals( bag1, bag4 );
-		assertNotEquals( bag1, bag2 );
-		assertNotEquals( bag1, bag3 );
-		assertNotEquals( bag2, bag3 );
-		assertNotEquals( bag2, bag4 );
-		assertNotEquals( bag4, bag3 );
+	public void testExecute() throws RoutingException {
+		StringWriter sw = new StringWriter(  );
+		RoutingInput input = new RoutingInput( "routing-input.txt" );
+		BagRouteOutput output = new BagRouteOutput( sw );
+		RoutingEngine engine = new RoutingEngine();
+		engine.setBaggageClaimId( "BaggageClaim" );
+		engine.executeSearch( input, output );
+		engine.cleanup();
 
-		assertNotEquals( bag1, null );
-		assertNotEquals( bag2, null );
-		assertNotEquals( bag3, null );
-		assertNotEquals( bag4, null );
-
-		assertEquals( "001", bag1.toString() );
+		assertEquals( sampleOutput.toString(), sw.toString() );
 	}
 
 }

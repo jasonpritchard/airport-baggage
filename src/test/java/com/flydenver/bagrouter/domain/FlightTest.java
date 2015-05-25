@@ -62,6 +62,9 @@ public class FlightTest {
 		assertNotEquals( flight1, null );
 		assertNotEquals( flight2, null );
 		assertNotEquals( flight3, null );
+		assertNotEquals( flight3, null );
+
+		assertEquals( flight1.toString(), "UA101" );
 	}
 
 }

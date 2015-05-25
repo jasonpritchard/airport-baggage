@@ -23,8 +23,11 @@
  *
  */
 
-package com.flydenver.bagrouter.lexer.section.conveyor;
+package com.flydenver.bagrouter.lexer.section.bag;
 
+import com.flydenver.bagrouter.domain.Flight;
+import com.flydenver.bagrouter.domain.FlightId;
+import com.flydenver.bagrouter.domain.PassengerBag;
 import com.flydenver.bagrouter.domain.TerminalGate;
 import com.flydenver.bagrouter.lexer.ParseException;
 import com.flydenver.bagrouter.lexer.section.RowParsingStrategy;
@@ -35,16 +38,16 @@ import java.util.regex.Pattern;
 
 
 /**
- * {@link RowParsingStrategy} implementation for parsing the Conveyor System section rows.
+ * {@link RowParsingStrategy} implementation for parsing Bag section rows.
  */
-class ConveyorRowParserStrategy implements RowParsingStrategy<ConveyorRoute> {
+public class BagRowParser implements RowParsingStrategy<BagEntry> {
 
 	//	conveyor row should match this format
-	private final static Pattern conveyorRowPattern = Pattern.compile( "^(\\w+\\s+)(\\w+\\s+)(\\d+)$" );
+	private final static Pattern bagRowPattern = Pattern.compile( "^(\\d+\\s+)(\\w+\\s+)(\\w+)$" );
 
 
 	@Override
-	public SectionRowWrapper<ConveyorRoute> parseSectionRow( String sectionLine ) throws ParseException {
+	public SectionRowWrapper<BagEntry> parseSectionRow( String sectionLine ) throws ParseException {
 		if ( sectionLine == null ) {
 			throw new IllegalArgumentException( "Invalid line (null)." );
 		}
@@ -55,15 +58,26 @@ class ConveyorRowParserStrategy implements RowParsingStrategy<ConveyorRoute> {
 			throw new IllegalArgumentException( "Too many lines." );
 		}
 
-		Matcher matcher = conveyorRowPattern.matcher( sectionLine );
+		Matcher matcher = bagRowPattern.matcher( sectionLine );
 		if ( !matcher.find() ) {
-			throw new ParseException( "Conveyor route line doesn't match pattern " + conveyorRowPattern.toString() );
+			throw new ParseException( "Bag route line doesn't match pattern " + bagRowPattern.toString() );
 		}
 
-		ConveyorRoute route = new ConveyorRoute();
-		route.setFirstTerminal( new TerminalGate( matcher.group( 1 ).trim() ) );
-		route.setSecondTermina( new TerminalGate( matcher.group( 2 ).trim() ) );
-		route.setTravelTime( Integer.parseInt( matcher.group( 3 ).trim() ) );
+		BagEntry route = new BagEntry();
+		route.setBag( new PassengerBag( matcher.group( 1 ).trim() ) );
+		route.setEntryPoint( new TerminalGate( matcher.group( 2 ).trim() ) );
+
+		String flightId = matcher.group( 3 ).trim();
+		if ( "ARRIVAL".equalsIgnoreCase( flightId ) ) {
+			route.getBag().setBagState( PassengerBag.BagState.ARRIVAL );
+		}
+		else {
+			route.getBag().setBagState( PassengerBag.BagState.IN_TRANSIT );
+
+			route.setFlight( new Flight() );
+			route.getFlight().setGate( route.getEntryPoint() );
+			route.getFlight().setFlightId( new FlightId( matcher.group( 3 ).trim() ) );
+		}
 
 		return new SectionRowWrapper<>( route );
 	}

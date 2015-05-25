@@ -23,37 +23,43 @@
  *
  */
 
-package com.flydenver.bagrouter.domain;
+package com.flydenver.bagrouter.routing;
 
 
-import org.junit.Test;
+/**
+ * Implementation of {@link Graph} that uses weighted {@link Edge}s.
+ */
+public class WeightedGraph<T> extends Graph<T, WeightedEdge<T>> {
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+	/**
+	 * Add an edge to the graph derived from the two nodes, and the assigned weight.
+	 */
+	public void addEdge( Node<T> firstNode, Node<T> secondNode, int weight ) {
+		if ( firstNode == null || secondNode == null ) {
+			throw new IllegalArgumentException( "Null nodes." );
+		}
 
+		if ( ! nodes().containsKey( firstNode.getNodeId() ) ) {
+			nodes().put( firstNode.getNodeId(), firstNode );
+		}
 
-public class BagTest {
+		if ( ! nodes().containsKey( secondNode.getNodeId() ) ) {
+			nodes().put( secondNode.getNodeId(), secondNode );
+		}
 
-	private final PassengerBag bag1 = new PassengerBag( "001" );
-	private final PassengerBag bag2 = new PassengerBag( "002" );
-	private final PassengerBag bag3 = new PassengerBag( "003" );
-	private final PassengerBag bag4 = new PassengerBag( "001" );
+		Node<T> first  = nodes().get( firstNode.getNodeId() );
+		Node<T> second = nodes().get( secondNode.getNodeId() );
+		WeightedEdge<T> edge = new WeightedEdge<>( first, second, weight );
 
-	@Test
-	public void testBagsEqual() {
-		assertEquals( bag1, bag4 );
-		assertNotEquals( bag1, bag2 );
-		assertNotEquals( bag1, bag3 );
-		assertNotEquals( bag2, bag3 );
-		assertNotEquals( bag2, bag4 );
-		assertNotEquals( bag4, bag3 );
+		first.addEdge( edge );
+		second.addEdge( edge );
 
-		assertNotEquals( bag1, null );
-		assertNotEquals( bag2, null );
-		assertNotEquals( bag3, null );
-		assertNotEquals( bag4, null );
+		if ( ! edges().contains( edge ) ) {
+			edges().add( edge );
+		}
 
-		assertEquals( "001", bag1.toString() );
+		addNodesFromEdge( edge );
+
 	}
 
 }

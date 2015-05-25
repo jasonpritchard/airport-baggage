@@ -39,14 +39,14 @@ import static org.junit.Assert.fail;
  */
 public class BagEntryTest {
 
-	private BagRowParserStrategy parser;
+	private BagRowParser parser;
 	private final String goodFormat = "0003 A2 UA10";
 	private final String tooManyElements = "0003 A2 UA10 A3";
 	private final String tooFewElements = "0003 A2";
 
 	@Before
 	public void setup() {
-		parser = new BagRowParserStrategy();
+		parser = new BagRowParser();
 	}
 
 
